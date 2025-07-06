@@ -4,7 +4,7 @@ const { Routes } = require('discord-api-types/v10');
 
 const commands = [
     {
-        name: 'say',
+        name: 'narrate',
         description: 'says what you want it to say',
         options: [
             {
