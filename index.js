@@ -12,7 +12,7 @@ client.once('ready', () => {
 });
 
 client.on('interactionCreate', async interaction => {
-    if (!interaction.isChatInputCommand() || interaction.commandName !== 'say') return;
+    if (!interaction.isChatInputCommand() || interaction.commandName !== 'narrate') return;
         const message = interaction.options.getString('message');
         // defer / send / delete 
         await interaction.deferReply({ ephemeral: true });
