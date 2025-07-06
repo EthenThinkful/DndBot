@@ -18,14 +18,11 @@ client.on('interactionCreate', async interaction => {
     try {
         if (!interaction.isChatInputCommand() || interaction.commandName !== 'narrate') return;
         const message = interaction.options.getString('message');
-        await interaction.reply({content: interaction.options.getString('message'), flags: MessageFlags.Ephemeral});
-        console.log('se');
-        // await interaction.deferReply({flags: Flags.Ephemeral});
-        console.log("op");
-        // await interaction.channel.send(message);
-        console.log('willy willy');
-        // await interaction.deleteReply();
-        console.log(`crazy`);
+        console.log("before reply");
+        await interaction.reply({content: message, flags: MessageFlags.Ephemeral});
+        await interaction.channel.send(message);
+        await interaction.deleteReply();
+        console.log(`Replied to interaction with message: ${message}`);
 
         // await interaction.defer({flags: InteractionResponseFlags.EPHEMERAL});
         // console.log('Interaction deferred');
