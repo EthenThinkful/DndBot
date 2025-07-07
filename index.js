@@ -18,12 +18,23 @@ client.on('interactionCreate', async interaction => {
     try {
         if (!interaction.isChatInputCommand() || interaction.commandName !== 'narrate') return;
         const message = interaction.options.getString('message');
-        console.log("before reply");
         
-        // Just reply publicly without the ephemeral step
-        await interaction.reply({content: message});
+        if (interaction.channel) {
+            // Send the message to the channel as the bot
+            await interaction.channel.send(message);
+            // Acknowledge privately that the command worked
+            await interaction.reply({
+                content: "Message sent!", 
+                flags: MessageFlags.Ephemeral
+            });
+        } else {
+            await interaction.reply({
+                content: "Cannot send message - no channel available", 
+                flags: MessageFlags.Ephemeral
+            });
+        }
         
-        console.log(`Replied to interaction with message: ${message}`);
+        console.log(`Narrated message: ${message}`);
     } catch (error) {
         console.error('Error handling interaction:', error);
     }
