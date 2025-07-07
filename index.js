@@ -19,23 +19,11 @@ client.on('interactionCreate', async interaction => {
         if (!interaction.isChatInputCommand() || interaction.commandName !== 'narrate') return;
         const message = interaction.options.getString('message');
         console.log("before reply");
-        await interaction.reply({content: message, flags: MessageFlags.Ephemeral});
-        await interaction.channel.send(message);
-        await interaction.deleteReply();
+        
+        // Just reply publicly without the ephemeral step
+        await interaction.reply({content: message});
+        
         console.log(`Replied to interaction with message: ${message}`);
-
-        // await interaction.defer({flags: InteractionResponseFlags.EPHEMERAL});
-        // console.log('Interaction deferred');
-        // await interaction.followUp({content: message });
-        // await interaction.deleteReply();
-        // console.log(`Deferred interaction for message: ${message}`);
-        // await interaction.reply({
-        //     content: message,
-        //     flags: InteractionResponseFlags.EPHEMERAL // Makes the response visible only to the user who invoked the command
-        // });
-        // await interaction.deferReply({flags: InteractionResponseFlags.EPHEMERAL});
-        // await interaction.channel.send(message);
-        // await interaction.deleteReply();
     } catch (error) {
         console.error('Error handling interaction:', error);
     }
