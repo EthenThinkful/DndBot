@@ -20,20 +20,21 @@ client.on('interactionCreate', async interaction => {
         if (!interaction.isChatInputCommand() || interaction.commandName !== 'narrate') return;
         const message = interaction.options.getString('message');
         
-        // Debug info
         console.log('Interaction details:');
         console.log('- Guild ID:', interaction.guildId);
         console.log('- Channel ID:', interaction.channelId);
-        console.log('- Channel object:', interaction.channel);
-        console.log('- Channel type:', interaction.channel?.type);
+        console.log('- Channel exists:', !!interaction.channel);
+        console.log('- Channel name:', interaction.channel?.name);
         
         if (interaction.channel) {
             const botMember = interaction.guild.members.cache.get(client.user.id);
             const permissions = interaction.channel.permissionsFor(botMember);
             
-            console.log('- Bot has SendMessages:', permissions.has('SendMessages'));
+            console.log('- Bot member found:', !!botMember);
+            console.log('- Permissions object:', !!permissions);
+            console.log('- Bot has SendMessages:', permissions?.has('SendMessages'));
             
-            if (!permissions.has('SendMessages')) {
+            if (!permissions || !permissions.has('SendMessages')) {
                 await interaction.reply({
                     content: "❌ I don't have permission to send messages in this channel!", 
                     flags: MessageFlags.Ephemeral
@@ -41,6 +42,7 @@ client.on('interactionCreate', async interaction => {
                 return;
             }
             
+            // Try to send the message
             await interaction.channel.send(message);
             await interaction.reply({
                 content: "✅ Message sent!", 
