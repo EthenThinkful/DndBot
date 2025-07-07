@@ -6,7 +6,8 @@ const {InteractionType,
 
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages  // Add this
     ],
 });
 
@@ -19,10 +20,18 @@ client.on('interactionCreate', async interaction => {
         if (!interaction.isChatInputCommand() || interaction.commandName !== 'narrate') return;
         const message = interaction.options.getString('message');
         
+        // Debug info
+        console.log('Interaction details:');
+        console.log('- Guild ID:', interaction.guildId);
+        console.log('- Channel ID:', interaction.channelId);
+        console.log('- Channel object:', interaction.channel);
+        console.log('- Channel type:', interaction.channel?.type);
+        
         if (interaction.channel) {
-            // Check permissions first
             const botMember = interaction.guild.members.cache.get(client.user.id);
             const permissions = interaction.channel.permissionsFor(botMember);
+            
+            console.log('- Bot has SendMessages:', permissions.has('SendMessages'));
             
             if (!permissions.has('SendMessages')) {
                 await interaction.reply({
@@ -39,7 +48,7 @@ client.on('interactionCreate', async interaction => {
             });
         } else {
             await interaction.reply({
-                content: "❌ Cannot send message - no channel available", 
+                content: `❌ Cannot send message - no channel available. Guild: ${interaction.guildId}, Channel ID: ${interaction.channelId}`, 
                 flags: MessageFlags.Ephemeral
             });
         }
