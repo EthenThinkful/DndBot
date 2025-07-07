@@ -20,16 +20,26 @@ client.on('interactionCreate', async interaction => {
         const message = interaction.options.getString('message');
         
         if (interaction.channel) {
-            // Send the message to the channel as the bot
+            // Check permissions first
+            const botMember = interaction.guild.members.cache.get(client.user.id);
+            const permissions = interaction.channel.permissionsFor(botMember);
+            
+            if (!permissions.has('SendMessages')) {
+                await interaction.reply({
+                    content: "❌ I don't have permission to send messages in this channel!", 
+                    flags: MessageFlags.Ephemeral
+                });
+                return;
+            }
+            
             await interaction.channel.send(message);
-            // Acknowledge privately that the command worked
             await interaction.reply({
-                content: "Message sent!", 
+                content: "✅ Message sent!", 
                 flags: MessageFlags.Ephemeral
             });
         } else {
             await interaction.reply({
-                content: "Cannot send message - no channel available", 
+                content: "❌ Cannot send message - no channel available", 
                 flags: MessageFlags.Ephemeral
             });
         }
