@@ -14,17 +14,41 @@ const rest = new REST({ version: '10' }).setToken(process.env.discord_token);
         });
         
         console.log('All guild commands deleted!');
-        
-        // Now re-register your command
+
+        // Now re-register your commands
         const commands = [
             {
                 name: 'narrate',
-                description: 'says what you want it to say',
+                description: 'Says what you want it to say',
                 options: [
                     {
                         name: 'message',
-                        type: 3,
+                        type: 3, // STRING
                         description: 'The message to say',
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: 'spell',
+                description: 'Look up a D&D 5e spell',
+                options: [
+                    {
+                        name: 'name',
+                        type: 3, // STRING
+                        description: 'The name of the spell (e.g., "fireball", "magic missile")',
+                        required: true,
+                    },
+                ],
+            },
+            {
+                name: 'monster',
+                description: 'Look up a D&D 5e monster',
+                options: [
+                    {
+                        name: 'name',
+                        type: 3, // STRING
+                        description: 'The name of the monster (e.g., "ancient-red-dragon", "goblin")',
                         required: true,
                     },
                 ],
