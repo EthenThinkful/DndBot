@@ -9,8 +9,8 @@ const rest = new REST({ version: '10' }).setToken(process.env.discord_token);
         console.log('Deleting all guild commands...');
         
         // Delete all commands for the guild
-        await rest.put(Routes.applicationGuildCommands(process.env.client_id, process.env.guild_id), {
-            body: [], // Empty array deletes all commands
+        await rest.put(Routes.applicationCommands(process.env.client_id), {
+            body: [],
         });
         
         console.log('All guild commands deleted!');
@@ -55,7 +55,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.discord_token);
             }
         ];
         
-        await rest.put(Routes.applicationGuildCommands(process.env.client_id, process.env.guild_id), {
+        await rest.put(Routes.applicationCommands(process.env.client_id), {
             body: commands,
         });
         
